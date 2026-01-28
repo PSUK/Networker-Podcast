@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0f;
+  --foreground: #f8fafc;
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --secondary: #13131f;
+  --card-bg: rgba(22, 22, 34, 0.7);
+  --card-border: rgba(139, 92, 246, 0.15);
+  --accent: #22d3ee;
+  --success: #10b981;
+  --danger: #f43f5e;
+  --muted: #94a3b8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-card-bg: var(--card-bg);
+  --color-accent: var(--accent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Better spacing & layout */
+.container-custom {
+  @apply max-w-6xl mx-auto px-6 lg:px-8;
+}
+
+/* Card Styling */
+.card {
+  @apply rounded-2xl border backdrop-blur-md overflow-hidden transition-all duration-300 p-3 sm:p-6 bg-card-bg;
+  border-color: var(--card-border);
+}
+
+.card:hover {
+  @apply shadow-2xl shadow-purple-500/10;
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(15, 15, 25, 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+/* Typography */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-linear-to-r from-purple-400 via-fuchsia-400 to-indigo-400 font-extrabold;
+}
+
+/* Buttons */
+.btn {
+  @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-200 active:scale-95 disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply bg-linear-to-br from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-900/20 hover:shadow-purple-500/40;
+}
+
+.btn-secondary {
+  @apply bg-white/5 border border-white/10 text-white hover:bg-white/10;
+}
+
+/* Inputs */
+.input {
+  @apply w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 transition-all outline-hidden focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20;
+}
+
+/* Section Spacing */
+.section-padding {
+  @apply py-16 md:py-24;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Background Patterns */
+.bg-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.animate-wave-sm {
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+@keyframes wave {
+
+  0%,
+  100% {
+    height: 30%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+/* Custom shadow for colors */
+.shadow-blue-glow {
+  box-shadow: 0 0 30px -10px rgba(59, 130, 246, 0.3);
+}
+
+.shadow-emerald-glow {
+  box-shadow: 0 0 30px -10px rgba(16, 185, 129, 0.3);
+}
+
+.shadow-fuchsia-glow {
+  box-shadow: 0 0 30px -10px rgba(192, 38, 211, 0.3);
+}
+
+.shadow-amber-glow {
+  box-shadow: 0 0 30px -10px rgba(245, 158, 11, 0.3);
+}
+
+.shadow-cyan-glow {
+  box-shadow: 0 0 30px -10px rgba(6, 182, 212, 0.3);
 }

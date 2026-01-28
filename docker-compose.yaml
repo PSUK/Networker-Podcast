@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # Podmontowanie pliku bazy danych (SQLite)
+      - ./data/dev.db:/app/dev.db
+      # Podmontowanie folderu z uploadami
+      - ./data/uploads:/app/public/uploads
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:/app/dev.db
+    restart: always
+
+# Pamiętaj, aby przed uruchomieniem stworzyć folder 'data' i przenieść tam swój plik dev.db
