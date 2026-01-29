@@ -95,9 +95,7 @@ export default function PodcastCard({
                     <div className="flex-1 min-w-0 py-2">
                         <div className="flex items-start justify-between gap-4 mb-4">
                             <div className="space-y-1">
-                                <span className={`text-[10px] font-bold ${color.text} uppercase tracking-[0.2em] block`}>
-                                    {color.name} session
-                                </span>
+                                <div className={`h-1 w-24 rounded-full ${color.accent} opacity-80 mb-2`} />
                                 <h3 className={`text-2xl md:text-3xl font-black tracking-tight transition-colors duration-300 ${isSelected ? 'text-white' : 'text-slate-200 group-hover:text-white'}`}>
                                     {podcast.title}
                                 </h3>
