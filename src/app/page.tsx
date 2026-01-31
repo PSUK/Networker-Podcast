@@ -108,18 +108,7 @@ export default function HomePage() {
                 </p>
 
                 {/* Topic Tags - Guaranteed separation */}
-                <div className="w-full py-[10vh] border-y border-white/5 flex flex-wrap justify-center gap-6 md:gap-12 mb-[20vh]">
-                  {['Connectivity', 'OHS Compliance', 'UK Standards', 'Infrastructure'].map(
-                    (tag) => (
-                      <span
-                        key={tag}
-                        className="px-10 py-4 rounded-2xl bg-white/5 border border-white/5 text-slate-500 text-[11px] font-black uppercase tracking-[0.4em] hover:border-purple-500/30 hover:text-purple-400 transition-all cursor-default"
-                      >
-                        {tag}
-                      </span>
-                    )
-                  )}
-                </div>
+                <div className="w-full py-[10vh] border-y border-white/5 flex flex-wrap justify-center gap-6 md:gap-12 mb-[20vh]" />
               </div>
             </div>
           </section>
