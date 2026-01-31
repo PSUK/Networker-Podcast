@@ -24,8 +24,8 @@ export default function Footer() {
                         </span>
                     </div>
 
-                    <p className="text-slate-500 text-sm font-medium">
-                        © {new Date().getFullYear()} Networker Podcast. Stay Safe. Stay Connected.
+                    <p className="text-slate-500 text-sm font-medium text-center md:text-left">
+                        © {new Date().getFullYear()} Networker Podcast. <br className="md:hidden" />Stay Safe. Stay Connected.
                     </p>
 
                     <div className="flex items-center gap-6 text-xs font-bold text-slate-600 uppercase tracking-widest">
