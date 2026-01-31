@@ -52,12 +52,7 @@ export default function Header() {
                     </Link>
 
                     <nav className="flex items-center gap-1 md:gap-4 p-1.5 bg-white/5 backdrop-blur-md rounded-2xl border border-white/5">
-                        <Link
-                            href="/"
-                            className="px-4 md:px-6 py-2 rounded-xl text-slate-300 hover:text-white transition-all text-sm font-bold hover:bg-white/5"
-                        >
-                            Explore
-                        </Link>
+
                         <Link
                             href="/admin"
                             className="px-4 md:px-6 py-2 rounded-xl bg-linear-to-br from-purple-600/20 to-indigo-600/20 text-purple-300 border border-purple-500/20 hover:from-purple-600 hover:to-indigo-600 hover:text-white transition-all text-sm font-bold shadow-2xl"
