@@ -109,7 +109,7 @@ export default function PodcastCard({
                             )}
                         </div>
 
-                        <p className="text-slate-400 text-sm md:text-base leading-relaxed line-clamp-2 mb-8">
+                        <p className="text-slate-400 text-sm md:text-base leading-relaxed line-clamp-6 mb-8">
                             {podcast.shortDescription}
                         </p>
 
