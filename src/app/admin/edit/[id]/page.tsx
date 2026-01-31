@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { upload } from '@vercel/blob/client';
 import { Podcast } from '@/types';
 
 export default function EditPodcastPage() {
@@ -87,21 +88,50 @@ export default function EditPodcastPage() {
         setError('');
 
         try {
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('shortDescription', shortDescription);
-            formData.append('fullDescription', fullDescription);
+            let audioUrl = currentAudioUrl;
+            let imageUrl = currentImageUrl;
 
+            // 1. Upload New Audio (if changed)
             if (audioFile) {
-                formData.append('audioFile', audioFile);
-            }
-            if (imageFile) {
-                formData.append('imageFile', imageFile);
+                try {
+                    const audioBlob = await upload(audioFile.name, audioFile, {
+                        access: 'public',
+                        handleUploadUrl: '/api/upload',
+                    });
+                    audioUrl = audioBlob.url;
+                } catch (err) {
+                    console.error('Audio upload failed:', err);
+                    throw new Error('Failed to upload new audio file');
+                }
             }
 
+            // 2. Upload New Image (if changed)
+            if (imageFile) {
+                try {
+                    const imageBlob = await upload(imageFile.name, imageFile, {
+                        access: 'public',
+                        handleUploadUrl: '/api/upload',
+                    });
+                    imageUrl = imageBlob.url;
+                } catch (err) {
+                    console.error('Image upload failed:', err);
+                    throw new Error('Failed to upload new image file');
+                }
+            }
+
+            // 3. Update Podcast Record
             const response = await fetch(`/api/podcasts/${id}`, {
                 method: 'PUT',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title,
+                    shortDescription,
+                    fullDescription,
+                    audioUrl,
+                    imageUrl,
+                }),
             });
 
             if (response.ok) {
@@ -110,8 +140,9 @@ export default function EditPodcastPage() {
                 const data = await response.json();
                 setError(data.error || 'Failed to update podcast');
             }
-        } catch (err) {
-            setError('An error occurred. Please try again.');
+        } catch (err: any) {
+            console.error('Update error:', err);
+            setError(err.message || 'An error occurred. Please try again.');
         } finally {
             setSaving(false);
         }

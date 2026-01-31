@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { upload } from '@vercel/blob/client';
 import Image from 'next/image';
 import { Podcast } from '@/types';
 
@@ -78,30 +79,57 @@ export default function AdminDashboardPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!audioFile) {
-            setError('Please select an audio file');
-            return;
-        }
-
         setUploading(true);
         setError('');
 
+        if (!title || !shortDescription || !audioFile) {
+            setError('Please fill in all required fields');
+            setUploading(false);
+            return;
+        }
+
         try {
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('shortDescription', shortDescription);
-            if (fullDescription) {
-                formData.append('fullDescription', fullDescription);
-            }
-            formData.append('audioFile', audioFile);
-            if (imageFile) {
-                formData.append('imageFile', imageFile);
+            // 1. Upload Audio
+            let audioUrl = '';
+            try {
+                const audioBlob = await upload(audioFile.name, audioFile, {
+                    access: 'public',
+                    handleUploadUrl: '/api/upload',
+                });
+                audioUrl = audioBlob.url;
+            } catch (err) {
+                console.error('Audio upload failed:', err);
+                throw new Error('Failed to upload audio file');
             }
 
+            // 2. Upload Image (if provided)
+            let imageUrl = '';
+            if (imageFile) {
+                try {
+                    const imageBlob = await upload(imageFile.name, imageFile, {
+                        access: 'public',
+                        handleUploadUrl: '/api/upload',
+                    });
+                    imageUrl = imageBlob.url;
+                } catch (err) {
+                    console.error('Image upload failed:', err);
+                    throw new Error('Failed to upload image file');
+                }
+            }
+
+            // 3. Create Podcast Record
             const response = await fetch('/api/admin/podcasts', {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title,
+                    shortDescription,
+                    fullDescription,
+                    audioUrl,
+                    imageUrl: imageUrl || null,
+                }),
             });
 
             if (response.ok) {
@@ -114,10 +142,11 @@ export default function AdminDashboardPage() {
                 }, 2000);
             } else {
                 const data = await response.json();
-                setError(data.error || 'Failed to upload podcast');
+                setError(data.error || 'Failed to create podcast record');
             }
-        } catch (err) {
-            setError('An error occurred. Please try again.');
+        } catch (err: any) {
+            console.error('Submission error:', err);
+            setError(err.message || 'An error occurred during upload. Please try again.');
         } finally {
             setUploading(false);
         }

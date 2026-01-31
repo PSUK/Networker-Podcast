@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
-import { saveFile, getDefaultCoverImage } from '@/lib/upload';
+import { getDefaultCoverImage } from '@/lib/upload';
 
 export async function POST(request: NextRequest) {
     try {
@@ -25,29 +25,16 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Parse form data
-        const formData = await request.formData();
-        const title = formData.get('title') as string;
-        const shortDescription = formData.get('shortDescription') as string;
-        const fullDescription = formData.get('fullDescription') as string | null;
-        const audioFile = formData.get('audioFile') as File;
-        const imageFile = formData.get('imageFile') as File | null;
+        // Parse request body
+        const body = await request.json();
+        const { title, shortDescription, fullDescription, audioUrl, imageUrl } = body;
 
         // Validate required fields
-        if (!title || !shortDescription || !audioFile) {
+        if (!title || !shortDescription || !audioUrl) {
             return NextResponse.json(
-                { error: 'Title, short description, and audio file are required' },
+                { error: 'Title, short description, and audio URL are required' },
                 { status: 400 }
             );
-        }
-
-        // Save audio file
-        const audioUrl = await saveFile(audioFile, 'audio');
-
-        // Save image file or use default
-        let imageUrl = getDefaultCoverImage();
-        if (imageFile && imageFile.size > 0) {
-            imageUrl = await saveFile(imageFile, 'images');
         }
 
         // Create podcast in database
@@ -57,7 +44,7 @@ export async function POST(request: NextRequest) {
                 shortDescription,
                 fullDescription: fullDescription || null,
                 audioUrl,
-                imageUrl,
+                imageUrl: imageUrl || getDefaultCoverImage(),
             },
         });
 

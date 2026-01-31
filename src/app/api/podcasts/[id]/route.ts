@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { saveFile } from '@/lib/upload';
+// import { saveFile } from '@/lib/upload';
 import { del } from '@vercel/blob';
 
 // GET single podcast by ID
@@ -38,7 +38,8 @@ export async function PUT(
 ) {
     try {
         const { id } = await params;
-        const formData = await request.formData();
+        const body = await request.json();
+        const { title, shortDescription, fullDescription, audioUrl, imageUrl } = body;
 
         // Fetch existing podcast to handle file deletion if needed
         const existingPodcast = await prisma.podcast.findUnique({
@@ -52,38 +53,27 @@ export async function PUT(
             );
         }
 
-        const title = formData.get('title') as string;
-        const shortDescription = formData.get('shortDescription') as string;
-        const fullDescription = formData.get('fullDescription') as string;
-        const audioFile = formData.get('audioFile') as File | null;
-        const imageFile = formData.get('imageFile') as File | null;
-
-        let audioUrl = existingPodcast.audioUrl;
-        let imageUrl = existingPodcast.imageUrl;
-
-        // Handle File Updates
-        if (audioFile) {
+        // Handle File Deletions (only if URL has changed)
+        if (audioUrl && audioUrl !== existingPodcast.audioUrl) {
             // Delete old audio if it exists and is a blob URL
-            if (audioUrl.includes('public.blob.vercel-storage.com')) {
+            if (existingPodcast.audioUrl.includes('public.blob.vercel-storage.com')) {
                 try {
-                    await del(audioUrl);
+                    await del(existingPodcast.audioUrl);
                 } catch (e) {
                     console.error('Failed to delete old audio file:', e);
                 }
             }
-            audioUrl = await saveFile(audioFile, 'audio');
         }
 
-        if (imageFile) {
+        if (imageUrl && imageUrl !== existingPodcast.imageUrl) {
             // Delete old image if it exists and is a blob URL
-            if (imageUrl && imageUrl.includes('public.blob.vercel-storage.com')) {
+            if (existingPodcast.imageUrl && existingPodcast.imageUrl.includes('public.blob.vercel-storage.com')) {
                 try {
-                    await del(imageUrl);
+                    await del(existingPodcast.imageUrl);
                 } catch (e) {
                     console.error('Failed to delete old image file:', e);
                 }
             }
-            imageUrl = await saveFile(imageFile, 'images');
         }
 
         const updatedPodcast = await prisma.podcast.update({
