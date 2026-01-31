@@ -101,11 +101,14 @@ export default function HomePage() {
               </div>
 
               <div className="flex flex-col items-center">
-                <p className="text-sm md:text-xl text-slate-400 font-medium leading-relaxed max-w-4xl mx-auto px-6 opacity-90 mb-4">
+                <p className="text-sm md:text-xl text-slate-400 font-medium leading-relaxed max-w-4xl mx-auto px-6 opacity-90 mb-0">
                   Strategic insights on <span className="text-slate-200">telecommunications</span>,
                   workplace <span className="text-slate-200">safety</span>, and UK industry
                   regulations.
                 </p>
+
+                {/* Visual Spacer 16px */}
+                <div className="w-full h-4" />
               </div>
             </div>
           </section>
