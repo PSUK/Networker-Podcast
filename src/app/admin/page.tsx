@@ -66,7 +66,7 @@ export default function AdminLoginPage() {
                             />
                         </svg>
                     </div>
-                    <span className="text-sm font-bold uppercase tracking-widest">Back to Gallery</span>
+                    <span className="text-sm font-bold uppercase tracking-widest">Back to Home</span>
                 </Link>
 
                 <div className="card p-8 md:p-12 relative overflow-hidden border-purple-500/10">
