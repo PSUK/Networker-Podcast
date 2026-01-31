@@ -101,14 +101,11 @@ export default function HomePage() {
               </div>
 
               <div className="flex flex-col items-center">
-                <p className="text-sm md:text-xl text-slate-400 font-medium leading-relaxed max-w-4xl mx-auto px-6 opacity-90 mb-[15vh]">
+                <p className="text-sm md:text-xl text-slate-400 font-medium leading-relaxed max-w-4xl mx-auto px-6 opacity-90 mb-4">
                   Strategic insights on <span className="text-slate-200">telecommunications</span>,
                   workplace <span className="text-slate-200">safety</span>, and UK industry
                   regulations.
                 </p>
-
-                {/* Topic Tags - Guaranteed separation */}
-                <div className="w-full py-[10vh] border-y border-white/5 flex flex-wrap justify-center gap-6 md:gap-12 mb-[20vh]" />
               </div>
             </div>
           </section>
