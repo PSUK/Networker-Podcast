@@ -104,7 +104,7 @@ export default function HomePage() {
                 <p className="text-sm md:text-xl text-slate-400 font-medium leading-relaxed max-w-4xl mx-auto px-6 opacity-90 mb-[15vh]">
                   Strategic insights on <span className="text-slate-200">telecommunications</span>,
                   workplace <span className="text-slate-200">safety</span>, and UK industry
-                  regulations. Stay informed with professional grade sessions.
+                  regulations.
                 </p>
 
                 {/* Topic Tags - Guaranteed separation */}
