@@ -114,7 +114,7 @@ export default function HomePage() {
           </section>
 
           {/* Podcasts Grid */}
-          <section className="pt-[15vh] pb-48 border-t border-white/5">
+          <section className="pt-[15vh] border-t border-white/5">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-20 mb-[15vh] px-10">
               <div className="space-y-8 py-8">
                 <h2 className="text-xs md:text-sm font-black text-white/60 tracking-[0.6em] uppercase">Latest Episodes</h2>
@@ -172,6 +172,9 @@ export default function HomePage() {
                 ))}
               </div>
             )}
+
+            {/* Force bottom spacing for footer separation */}
+            <div className="h-32 w-full" />
           </section>
         </div>
       </main>
