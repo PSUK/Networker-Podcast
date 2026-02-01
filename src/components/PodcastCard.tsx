@@ -147,7 +147,7 @@ export default function PodcastCard({
                                 <div className={`w-12 h-px ${color.accent} opacity-40`} />
                                 Detailed Briefing
                             </h4>
-                            <div className="prose prose-invert prose-lg max-w-none text-slate-200 opacity-90 prose-p:leading-relaxed prose-headings:font-bold prose-a:text-blue-400 prose-ul:list-disc prose-ul:pl-4 prose-ol:list-decimal prose-ol:pl-4">
+                            <div className="prose prose-invert prose-lg max-w-none text-slate-200 opacity-90 prose-p:leading-relaxed prose-headings:font-bold prose-a:text-blue-400 prose-ul:list-disc prose-ul:pl-10 prose-ol:list-decimal prose-ol:pl-10">
                                 <ReactMarkdown remarkPlugins={[remarkBreaks]}>
                                     {podcast.fullDescription || ''}
                                 </ReactMarkdown>
