@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Podcast } from '@/types';
+import ReactMarkdown from 'react-markdown';
 
 interface PodcastCardProps {
     podcast: Podcast;
@@ -140,19 +142,17 @@ export default function PodcastCard({
                 {isSelected && podcast.fullDescription && (
                     <div className="mt-14 pt-12 border-t border-white/5 animate-fade-in w-full text-left">
                         <div className="w-full max-w-4xl space-y-6">
-                            <div className="space-y-4">
-                                <h4 className={`text-[10px] font-black ${color.text} flex items-center gap-4 uppercase tracking-[0.5em]`}>
-                                    <div className={`w-12 h-px ${color.accent} opacity-40`} />
-                                    Detailed Briefing
-                                </h4>
-                                <p className="text-slate-200 text-base md:text-xl leading-relaxed font-medium opacity-90">
-                                    {podcast.fullDescription}
-                                </p>
+                            <h4 className={`text-[10px] font-black ${color.text} flex items-center gap-4 uppercase tracking-[0.5em]`}>
+                                <div className={`w-12 h-px ${color.accent} opacity-40`} />
+                                Detailed Briefing
+                            </h4>
+                            <div className="prose prose-invert prose-lg max-w-none text-slate-200 opacity-90 prose-p:leading-relaxed prose-headings:font-bold prose-a:text-blue-400">
+                                <ReactMarkdown>{podcast.fullDescription || ''}</ReactMarkdown>
                             </div>
                         </div>
                     </div>
                 )}
             </div>
-        </article>
+        </article >
     );
 }

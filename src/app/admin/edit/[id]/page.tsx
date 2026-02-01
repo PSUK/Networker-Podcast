@@ -224,7 +224,7 @@ export default function EditPodcastPage() {
 
                                     <div>
                                         <label htmlFor="fullDescription" className="block text-sm font-medium text-gray-300 mb-2">
-                                            Full Description
+                                            Full Description <span className="text-gray-500 font-normal ml-1">(supports Markdown: **bold**, *italic*)</span>
                                         </label>
                                         <textarea
                                             id="fullDescription"
